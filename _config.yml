@@ -1,0 +1,15 @@
+title: metrico
+email: info@metrico.in
+description: >- 
+  Metrico Package Repository
+baseurl: ""
+url: "https://metrico.github.io"
+github_username: metrico
+
+# Build settings
+theme: minima
+plugins:
+  - jekyll-feed
+exclude:
+  - tools/
+  - doc/
