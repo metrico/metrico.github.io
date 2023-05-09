@@ -1,13 +1,11 @@
 ---
 layout: home
-title: Metrico DEB/RPM Package Repository
+title: Metrico Package Repository
 ---
 
 ### Add a Debian Repository
 
-Download the [public key](metrico.gpg) and put it in
-`/etc/apt/keyrings/metrico.gpg`. You can achieve this with:
-
+Download the [public key](metrico.gpg)
 ```
 wget -qO- {{ site.url }}/metrico.gpg | sudo tee /etc/apt/trusted.gpg.d/metrico.gpg >/dev/null
 ```
@@ -20,9 +18,16 @@ echo "deb [arch=all signed-by=/etc/apt/trusted.gpg.d/metrico.gpg] {{ site.url }}
 
 Then run `apt update && apt install -y` followed by the names of the packages you want to install.
 
+```
+apt install libchdb
+```
+
 ### Add a RPM Repository
 
 Download the repo file `cd /etc/yum.repos.d ; curl {{ site.url }}/metrico.repo -LO`
 
 Then you can do `yum install -y` followed by the names of the packages you want to install.
 
+```
+yum install libchdb
+```
