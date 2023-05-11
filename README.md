@@ -6,4 +6,4 @@
 
 This `deb`/`rpm` repository is powered by [Github Actions](https://github.com/metrico/metrico.github.io/tree/main/.github), [Github Pages](https://jon.sprig.gs/blog/post/2835) and [nfpm](https://nfpm.goreleaser.com/)
 
-<!-- update: 202305111035 -->
+<!-- update: 202305111130 -->
