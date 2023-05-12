@@ -1,0 +1,6 @@
+[metrico]
+name=Metrico Repository
+baseurl=https://metrico.github.io/rpm
+enabled=1
+gpgcheck=1
+gpgkey=https://metrico.github.io/metrico.gpg
