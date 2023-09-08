@@ -7,3 +7,16 @@
 This `deb`/`rpm` repository is powered by [Github Actions](https://github.com/metrico/metrico.github.io/tree/main/.github), [Github Pages](https://jon.sprig.gs/blog/post/2835) and [nfpm](https://nfpm.goreleaser.com/)
 
 <!-- update: 202305111130 -->
+
+
+## Installation Script
+### DEB System
+```bash
+sudo bash -c 'curl -s https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | bash'
+sudo yum install -y libchdb
+```
+### RPM System
+```bash
+sudo bash -c 'curl -s https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | bash'
+sudo apt install libchdb
+```
