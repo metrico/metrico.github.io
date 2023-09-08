@@ -20,23 +20,24 @@ main() {
   echo "Parsing the repo list"
   while IFS= read -r repo
   do
+    # AMD64 SCAN
     if release=$(curl -fqs https://api.github.com/repos/${repo}/releases/latest)
     then
       tag="$(echo "$release" | jq -r '.tag_name')"
-      rpm_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith(".rpm")) | .name')"
-      deb_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith(".deb")) | .name')"
+      rpm_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith("amd64.rpm")) | .name')"
+      deb_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith("all.deb")) | .name')"
       echo "Parsing repo $repo at $tag"
       if [ -n "$rpm_file" ]
       then
         GOT_RPM=1
         mkdir -p _site/rpm
         pushd _site/rpm >/dev/null
-        echo "Getting RPM"
+        echo "Getting AMD64 RPM"
         wget -q "https://github.com/${repo}/releases/download/${tag}/${rpm_file}"
         (
           if [ -n "$GPG_FINGERPRINT" ]
           then
-            echo "Signing RPM"
+            echo "Signing AMD64 RPM"
             rpm --define "%_signature gpg" --define "%_gpg_name ${GPG_FINGERPRINT}" --addsign "${rpm_file}"
           fi
         )
@@ -52,6 +53,39 @@ main() {
         popd >/dev/null
       fi
     fi
+    # ARM64 SCAN
+    if release=$(curl -fqs https://api.github.com/repos/${repo}/releases/latest)
+    then
+      tag="$(echo "$release" | jq -r '.tag_name')"
+      rpm_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith("arm64.rpm")) | .name')"
+      deb_file="$(echo "$release" | jq -r '.assets[] | select(.name | endswith("arm64.deb")) | .name')"
+      echo "Parsing repo $repo at $tag"
+      if [ -n "$rpm_file" ]
+      then
+        GOT_RPM=1
+        mkdir -p _site/rpm
+        pushd _site/rpm >/dev/null
+        echo "Getting ARM64 RPM"
+        wget -q "https://github.com/${repo}/releases/download/${tag}/${rpm_file}"
+        (
+          if [ -n "$GPG_FINGERPRINT" ]
+          then
+            echo "Signing RPM"
+            rpm --define "%_signature gpg" --define "%_gpg_name ${GPG_FINGERPRINT}" --addsign "${rpm_file}"
+          fi
+        )
+        popd >/dev/null
+      fi
+      if [ -n "$deb_file" ]
+      then
+        GOT_DEB=1
+        mkdir -p "$DEB_POOL"
+        pushd "$DEB_POOL" >/dev/null
+        echo "Getting ARM64 DEB"
+        wget -q "https://github.com/${repo}/releases/download/${tag}/${deb_file}"
+        popd >/dev/null
+      fi
+    fi
   done < .github/config/package_list.txt
 
   if [ $GOT_DEB -eq 1 ]
@@ -59,7 +93,7 @@ main() {
     pushd _site/deb >/dev/null
     mkdir -p "${DEB_DISTS_COMPONENTS}"
     echo "Scanning all downloaded DEB Packages and creating Packages file."
-    dpkg-scanpackages --arch all pool/ > "${DEB_DISTS_COMPONENTS}/Packages"
+    dpkg-scanpackages -m pool/ > "${DEB_DISTS_COMPONENTS}/Packages"
     gzip -9 > "${DEB_DISTS_COMPONENTS}/Packages.gz" < "${DEB_DISTS_COMPONENTS}/Packages"
     bzip2 -9 > "${DEB_DISTS_COMPONENTS}/Packages.bz2" < "${DEB_DISTS_COMPONENTS}/Packages"
     popd >/dev/null
