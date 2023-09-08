@@ -3,6 +3,21 @@ layout: home
 title: Metrico Package Repository
 ---
 
+## Automatic Installation
+### DEB System
+```bash
+sudo bash -c 'curl -s https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | bash'
+sudo yum install -y libchdb
+```
+### RPM System
+```bash
+sudo bash -c 'curl -s https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | bash'
+sudo apt install libchdb
+```
+
+<br>
+
+## Manual
 ### Add a Debian Repository
 
 Download the [public key](metrico.gpg)
