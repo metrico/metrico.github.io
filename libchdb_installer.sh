@@ -28,7 +28,7 @@ add_rpm_repository() {
   echo "Adding Metrico RPM repository..."
   cd /etc/yum.repos.d && sudo curl -LO https://metrico.github.io/metrico.repo
   echo "The repository is setup! You can now install packages."
-  echo "Example: sudo rpm install -y libchdb" 
+  echo "Example: sudo yum install -y libchdb" 
   echo ""
 }
 
