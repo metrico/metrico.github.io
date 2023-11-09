@@ -13,10 +13,10 @@ This `deb`/`rpm` repository is powered by [Github Actions](https://github.com/me
 ### DEB System
 ```bash
 wget -q -O - https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | sudo bash
-sudo yum install -y libchdb
+sudo apt install -y libchdb
 ```
 ### RPM System
 ```bash
 wget -q -O - https://github.com/metrico/metrico.github.io/raw/main/libchdb_installer.sh | sudo bash
-sudo apt install libchdb
+sudo yum install libchdb
 ```
