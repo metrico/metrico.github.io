@@ -6,6 +6,8 @@
 name: Deploy Debian and RPM Repo plus Jekyll homepage
 
 on:
+  schedule:
+    - cron: "0 0 * * *"
   push:
     branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
